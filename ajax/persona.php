@@ -1,7 +1,7 @@
 <?php
 require_once "../modelos/persona.php";
 
-$permiso=new permiso();
+$persona=new persona();
 
 $idpersona=isset($_POST["idpersona"])? limpiarCadena($_POST["idpersona"]):"";
 $tipo_persona=isset($_POST["tipo_persona"])? limpiarCadena($_POST["tipo_persona"]):"";
@@ -82,6 +82,26 @@ switch ($_GET["op"]){
     
 
     break;
+
+    case 'desactivar':
+
+        $respuesta=$persona->desactivar($idpersona);
+        echo $respuesta? "Pingon desactivado" : "Articulo no se pudo desactivar";
+
+
+    break;
+
+
+    case 'activar':
+
+        $respuesta=$articulo->activar($idarticulo);
+        echo $respuesta? "Articulo activada" : "Articulo no se pudo activar";
+
+
+    break;
+
+
+
 
     
 }

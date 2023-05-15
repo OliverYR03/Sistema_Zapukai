@@ -1,4 +1,5 @@
 <?php
+
 require_once "../modelos/usuarios.php";
 
 $usuario=new usuario();
@@ -15,6 +16,10 @@ $login=isset($_POST["login"])? limpiarCadena($_POST["login"]):"";
 $clave=isset($_POST["clave"])? limpiarCadena($_POST["clave"]):"";
 $cargo=isset($_POST["imagen"])? limpiarCadena($_POST["imagen"]):"";
 
+
+
+
+
 switch($_GET["op"]){
     case 'guardareditar':
 
@@ -28,76 +33,55 @@ switch($_GET["op"]){
             if ($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg" || $_FILES['imagen']['type'] == "image/png")
             {
                 $imagen = round(microtime(true)) . '.' . end($ext);
-                move_uploaded_file($_FILES["imagen"]["tmp_name"], "../files/articulos/" . $imagen);
+                move_uploaded_file($_FILES["imagen"]["tmp_name"], "../files/usuarios/" . $imagen);
             }
         }
 
+        $clavehash=hash("SHA256",$clave);
+
         if(empty($idusuario)){
 
-            $respuesta=$usuario->insertar($nombre,$tipo_documento,$num_documento,$direccion,$telefono,$email,$cargo,$login,
+			$respuesta=$usuario->insertar($nombre,$tipo_documento,$num_documento,$direccion,$telefono,$email,$cargo,$login,
+			$clavehash,$imagen,$_POST['permiso'], $condicion);
+			echo $respuesta ? "usuario registrado" : "la usuario no se pudo registrar";
+		}
+        else {
+            $respuesta=$usuario->editar($idusuario,$nombre,$tipo_documento,$num_documento,$direccion,$telefono,$email,$cargo,$login,
             $clavehash,$imagen,$_POST['permiso']);
-            echo $respuesta? "usuario registrado" : "usuario no se pudo registrar";
-
-        
-        }else{
-
-            $respuesta=$usuario->insertar($nombre,$tipo_documento,$num_documento,$direccion,$telefono,$email,$cargo,$login,
-            $clavehash,$imagen,$_POST['permiso']);
-            echo $respuesta? "usuario actualizada" : "usuario no se pudo actualizar";
-
+            echo $respuesta ? "usuario actualizada" : "usuario no se pudo actualizar";
         }
-
-    
-
     break;
     
-
     case 'desactivar':
-
         $respuesta=$usuario->desactivar($idusuario);
-        echo $respuesta? "usuario desactivada" : "usuario no se pudo desactivar";
-
-
+        echo $respuesta ? "usuario desactivada" : "usuario no se pudo desactivar";
     break;
-
 
     case 'activar':
-
         $respuesta=$usuario->activar($idusuario);
-        echo $respuesta? "usuario activada" : "usuario no se pudo activar";
-
-
+        echo $respuesta ? "usuario activada" : "usuario no se pudo activar";
     break;
 
-
     case 'mostrar':
-
-
         $respuesta=$usuario->mostrar($idusuario);
 
         echo json_encode($respuesta);
         break;
-
-
-    break;
-
+    
 
     case 'listar':
-
         $respuesta=$usuario->listar();
 
-
         $data=Array();
-
 
         while($reg=$respuesta->fetch_object()){
 
 
                 $data[]=array(
                     "0"=> ($reg->condicion)? '<button class="btn btn-warning" onclick="mostrar('.$reg-> idusuario.')"><i class="fa-solid fa-pencil"></i></button>'.
-                          '<button class="btn btn-danger" onclick="eliminar('.$reg-> idusuario.')"><i class="fa-solid fa-xmark"></i></button>':
-                          '<button class="btn btn-danger" onclick="mostrar('.$reg-> idusuario.')"><i class="fa-solid fa-xmark"></i></button>'.
-                          '<button class="btn btn-danger" onclick="activar('.$reg-> idusuario.')"><i class="fa-solid fa-xmark"></i></button>',
+                          '<button class="btn btn-danger" onclick="desactivar('.$reg-> idusuario.')"><i class="fa-solid fa-xmark"></i></button>':
+                          '<button class="btn btn-warning" onclick="mostrar('.$reg-> idusuario.')"><i class="fa-solid fa-pencil"></i></button>'.
+                          '<button class="btn btn-success" onclick="activar('.$reg-> idusuario.')"><i class="fa-solid fa-plus"></i></button>',
                     "1"=>$reg->nombre,
                     "2"=>$reg->tipo_documento,
                     "3"=>$reg->num_documento,
@@ -137,25 +121,55 @@ switch($_GET["op"]){
 
         $valores= array();
 
-        while ($per = $marcados->fetch_object())
+        while ($reg = $marcados->fetch_object())
         {
-            array_push($valores, $per->idpermiso);
+            array_push($valores, $reg->idpermiso);
         }
 
             while ($reg = $rspta ->fetch_object())
                 {
                     $sw=in_array($reg->idpermiso,$valores)?'checked':'';
 
-                    echo '<li> <input type="checkbox" '.$sw.' name ="permiso[]" value="'.$reg->idpermiso.'">',reg->nombre.'</li>';
+                    echo '<li> <input type="checkbox" '.$sw.' name ="permiso[]" value="'.$reg->idpermiso.'">',$reg->nombre.'</li>';
                 }
 
 
     break;
 
+    case 'verificar':
+
+        $login=$_POST['login'];
+        $clave=$_POST['clave'];
+
+        $clavehash=hash("SHA256",$clave);
+
+        $rspta=$usuario->verificar($login, $clavehash);
+
+        $fetch=$rspta->fetch_object();
+
+        if(isset($fetch)){
+
+            $_SESSION['idusuario']=$fetch->idusuario;
+            $_SESSION['nombre']=$fetch->nombre;
+            $_SESSION['imagen']=$fetch->imagen;
+            $_SESSION['login']=$fetch->login;
+
+            $marcados = $usuario->listarmarcados($fetch->idusuario);
+
+            $valores=array();
+
+                while ($per = $marcados->fetch_object())
+                {
+                    array_push($valores, $per->idpermiso);
+                }
+        }
+
+
+        echo json_encode(($fetch));
 
 
 
-
+    break;
 
     
 }

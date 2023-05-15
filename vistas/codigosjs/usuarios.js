@@ -166,7 +166,7 @@ function mostrar(idusuario) {
         $("#login").val(data.login);
         $("#clave").val(data.clave);
         $("#imagenmuestra").show();
-        $("#imagenmuestra").attr("src","../files/usuarios/".data.imagen);
+        $("#imagenmuestra").attr("src","../files/usuarios/">data.imagen);
         $("#imagenactual").val(data.imagen);
         $("#idusuario").val(data.idusuario);
         
@@ -194,6 +194,35 @@ function eliminar(idpersona){
     })
 }
 
+function desactivar(idusuario){
+
+    bootbox.confirm("¿Estás Seguro de desactivar al usuario?", function (result){
+        if (result) {
+
+            $.post("../ajax/usuarios.php?op=desactivar", {idusuario : idusuario}, function(e){
+                bootbox.alert(e);
+                tabla.ajax.reload();
+            });
+
+
+        }
+    })
+}
+
+function activar(idusuario){
+
+    bootbox.confirm("¿Estás Seguro de activar al usuario?", function (result){
+        if (result) {
+
+            $.post("../ajax/usuarios.php?op=activar", {idusuario : idusuario}, function(e){
+                bootbox.alert(e);
+                tabla.ajax.reload();
+            });
+
+
+        }
+    })
+}
 
 
 

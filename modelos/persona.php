@@ -32,6 +32,12 @@ class Persona{
 
     }
 
+    public function desactivar($idpersona){
+
+        $sql="UPDATE persona SET condicion='0' WHERE idpersona='$idpersona'";
+        return ejecutarConsulta($sql);
+    }
+
     public function eliminar($idpersona){
 
         $sql="DELETE FROM persona WHERE idpersona='$idpersona'";

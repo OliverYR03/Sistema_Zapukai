@@ -73,7 +73,6 @@
                                 </table>
                                 
                             </div>
-                           
 
 
                             <div class="card-body" style="heiht: 400px;" id="formularioregistros">
@@ -88,16 +87,17 @@
                                         </div>
                                     </div>
 
-
-                                    <div class="col-sm-6 input-group">
-                                            <div class="form-group" class="form-label">
+                                    <div class="col-sm-6 ">
+                                            <div class="form-group" >
                                                 <label>tipo documento</label>
-                                                <select name="tipo_documento" class="form-select"
-                                                    id="tipo_documento">
+                                                <select name="tipo_documento" class="form-control" id="tipo_documento">
+
                                                     <option value="DNI">DNI</option>
                                                     <option value="RUC">RUC</option>
-                                                    <option value="CEDULA">CEDULA</option>
+                                                    <option value="CEDULA">CEDULA</option>            
+                                               
                                                </select>
+
                                             
                                         </div>
                                     </div>
@@ -105,35 +105,35 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label >numero</label>
-                                            <input type="text" name="num_documento" id="num_documento" maxlength="20" class="form-control" placeholder="Stock" required>
+                                            <input type="text" name="num_documento" id="num_documento" maxlength="20" class="form-control" placeholder="Numero de documento" required>
                                         </div>
                                     </div>
                                     
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label >Direcciones</label>
-                                            <input type="text" name="direccion" id="direccion" maxlength="70" class="form-control" placeholder="Escribir Descripcion" required>
+                                            <input type="text" name="direccion" id="direccion" maxlength="70" class="form-control" placeholder="Escribir Dirección" required>
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label >telefono</label>
-                                            <input type="text" name="telefono" id="telefono" maxlength="20" class="form-control" placeholder="Escribir Descripcion" required>
+                                            <input type="text" name="telefono" id="telefono" maxlength="20" class="form-control" placeholder="Escribir numero de telefono" required>
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label >email</label>
-                                            <input type="text" name="email" id="email" class="form-control"  required>
+                                            <input type="text" name="email" id="email" class="form-control" placeholder="Ingresar Email" required>
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label >cargo</label>
-                                            <input type="text" name="cargo" id="cargo" class="form-control"  required>
+                                            <input type="text" name="cargo" id="cargo" class="form-control" placeholder="Ingresar Cargo" required>
                                         </div>
                                     </div>
 
@@ -147,7 +147,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label >clave</label>
-                                            <input type="text" name="clave" id="clave" class="form-control"  required>
+                                            <input type="password" name="clave" id="clave" class="form-control"  required>
                                         </div>
                                     </div>
 
