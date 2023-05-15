@@ -89,10 +89,10 @@
                                     </div>
 
 
-                                    <div class="col-sm-6">
-                                            <div class="form-group">
+                                    <div class="col-sm-6 input-group">
+                                            <div class="form-group" class="form-label">
                                                 <label>tipo documento</label>
-                                                <select name="tipo_documento" class="form-control"
+                                                <select name="tipo_documento" class="form-select"
                                                     id="tipo_documento">
                                                     <option value="DNI">DNI</option>
                                                     <option value="RUC">RUC</option>

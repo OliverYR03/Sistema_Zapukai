@@ -162,7 +162,7 @@ function mostrar(idusuario) {
         $("#direccion").val(data.direccion);
         $("#telefono").val(data.telefono);
         $("#email").val(data.email);
-        $("#carggo").val(data.cargo);
+        $("#cargo").val(data.cargo);
         $("#login").val(data.login);
         $("#clave").val(data.clave);
         $("#imagenmuestra").show();
